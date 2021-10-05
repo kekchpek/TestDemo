@@ -139,19 +139,69 @@ namespace TestDemo.Tests
         [Test]
         public void TestAnimatorEnable()
         {
-            Assert.Fail("The test is not implemented");
+            // Arange
+            Portal portal = new GameObject().AddComponent<Portal>();
+            IPortalAnimator portalAnimator = Substitute.For<IPortalAnimator>();
+            bool animated = false;
+            portalAnimator.When(x => x.AnimateEnable()).Do(x =>
+            {
+                animated = true;
+            });
+            ITeleportableDetector teleportableDetector = Substitute.For<ITeleportableDetector>();
+            IPortal pairedPortal = Substitute.For<IPortal>();
+
+            // Act
+            portal.Initialize(portalAnimator, teleportableDetector, pairedPortal);
+            portal.Enabled = true;
+
+            // Assert
+            Assert.IsTrue(animated);
         }
 
         [Test]
         public void TestAnimatorDisable()
         {
-            Assert.Fail("The test is not implemented");
+            // Arange
+            Portal portal = new GameObject().AddComponent<Portal>();
+            IPortalAnimator portalAnimator = Substitute.For<IPortalAnimator>();
+            bool animated = false;
+            portalAnimator.When(x => x.AnimateDisable()).Do(x =>
+            {
+                animated = true;
+            });
+            ITeleportableDetector teleportableDetector = Substitute.For<ITeleportableDetector>();
+            IPortal pairedPortal = Substitute.For<IPortal>();
+
+            // Act
+            portal.Initialize(portalAnimator, teleportableDetector, pairedPortal);
+            portal.Enabled = true;
+            portal.Enabled = false;
+
+            // Assert
+            Assert.IsTrue(animated);
         }
 
         [Test]
         public void TestAnimatorTeleportation()
         {
-            Assert.Fail("The test is not implemented");
+            // Arange
+            Portal portal = new GameObject().AddComponent<Portal>();
+            IPortalAnimator portalAnimator = Substitute.For<IPortalAnimator>();
+            bool animated = false;
+            portalAnimator.When(x => x.AnimateTeleport()).Do(x =>
+            {
+                animated = true;
+            });
+            ITeleportableDetector teleportableDetector = Substitute.For<ITeleportableDetector>();
+            IPortal pairedPortal = Substitute.For<IPortal>();
+
+            // Act
+            portal.Initialize(portalAnimator, teleportableDetector, pairedPortal);
+            portal.Enabled = true;
+            portal.Teleport(Substitute.For<ITeleportable>());
+
+            // Assert
+            Assert.IsTrue(animated);
         }
         
         // Event should be called when the object have been teleported

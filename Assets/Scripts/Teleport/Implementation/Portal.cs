@@ -28,6 +28,10 @@ namespace TestDemo.Teleport
                 if (value == _enabled)
                     return;
                 _enabled = value;
+                if (_enabled)
+                    _portalAnimator?.AnimateEnable();
+                else
+                    _portalAnimator?.AnimateDisable();
                 PairedPortal.Enabled = value;
             }
         }
@@ -42,6 +46,7 @@ namespace TestDemo.Teleport
         {
             if (!_enabled)
                 return;
+            _portalAnimator?.AnimateTeleport();
             teleportable.TeleportTo(PairedPortal.Postion);
         }
 
