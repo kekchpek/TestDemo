@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace TestDemo.Teleport
 {
@@ -11,6 +13,8 @@ namespace TestDemo.Teleport
         private IPortalAnimator _portalAnimator;
         private ITeleportableDetector _teleportableDetector;
         private IPortal _pairedPortal;
+
+        private readonly ISet<ITeleportable> _teleportedObjects = new HashSet<ITeleportable>();
         public void Initialize(IPortalAnimator portalAnimator, ITeleportableDetector teleportableDetector, IPortal pairedPortal)
         {
             _portalAnimator = portalAnimator;
@@ -18,6 +22,8 @@ namespace TestDemo.Teleport
             _pairedPortal = pairedPortal ?? throw new ArgumentNullException(nameof(pairedPortal));
 
             _teleportableDetector.OnEnter += Teleport;
+            _teleportableDetector.OnExit += UnmarkTeleported;
+            _pairedPortal.OnTeleported += MarkTeleported;
         }
 
         public bool Enabled
@@ -46,13 +52,32 @@ namespace TestDemo.Teleport
         {
             if (!_enabled)
                 return;
+            if (_teleportedObjects.Contains(teleportable))
+                return;
             _portalAnimator?.AnimateTeleport();
+            OnTeleported?.Invoke(teleportable);
             teleportable.TeleportTo(PairedPortal.Postion);
         }
 
         private void OnDestroy()
         {
             _teleportableDetector.OnEnter -= Teleport;
+            _teleportableDetector.OnExit -= UnmarkTeleported;
+            _pairedPortal.OnTeleported -= MarkTeleported;
+        }
+
+        private void UnmarkTeleported(ITeleportable teleportable)
+        {
+            if (_teleportedObjects.Contains(teleportable))
+            {
+                _teleportedObjects.Remove(teleportable);
+            }
+        }
+
+        private void MarkTeleported(ITeleportable teleportable)
+        {
+            Assert.IsFalse(_teleportedObjects.Contains(teleportable));
+            _teleportedObjects.Add(teleportable);
         }
     }
 }

@@ -208,21 +208,71 @@ namespace TestDemo.Tests
         [Test]
         public void TestTeleportEvent()
         {
-            Assert.Fail("The test is not implemented");
+            // Arange
+            Portal portal = new GameObject().AddComponent<Portal>();
+            IPortalAnimator portalAnimator = Substitute.For<IPortalAnimator>();
+            ITeleportableDetector teleportableDetector = Substitute.For<ITeleportableDetector>();
+            IPortal pairedPortal = Substitute.For<IPortal>();
+            ITeleportable teleportable = Substitute.For<ITeleportable>();
+            ITeleportable eventTeleportable = null;
+            portal.OnTeleported += x => eventTeleportable = x;
+
+            // Act
+            portal.Initialize(portalAnimator, teleportableDetector, pairedPortal);
+            portal.Enabled = true;
+            portal.Teleport(teleportable);
+
+            // Assert
+            Assert.AreEqual(teleportable, eventTeleportable);
         }
 
         // When the object is teleported it should not be teleported back till it leaves portal
         [Test]
         public void TestTeleportCycle()
         {
-            Assert.Fail("The test is not implemented");
+            // Arange
+            Portal portal = new GameObject().AddComponent<Portal>();
+            IPortalAnimator portalAnimator = Substitute.For<IPortalAnimator>();
+            ITeleportableDetector teleportableDetector = Substitute.For<ITeleportableDetector>();
+            IPortal pairedPortal = Substitute.For<IPortal>();
+            ITeleportable teleportable = Substitute.For<ITeleportable>();
+            bool isTeleportCalled = false;
+            teleportable.When(x => x.TeleportTo(Arg.Any<Vector3>())).Do(x => isTeleportCalled = true);
+
+            // Act
+            portal.Initialize(portalAnimator, teleportableDetector, pairedPortal);
+            portal.Enabled = true;
+            pairedPortal.OnTeleported += Raise.Event<Action<ITeleportable>>(teleportable);
+            teleportableDetector.OnEnter += Raise.Event<Action<ITeleportable>>(teleportable);
+
+            // Assert
+            Assert.IsFalse(isTeleportCalled);
+            
         }
 
         // When the object was teleported, left portal and enter again it should be teleported
         [Test]
         public void TestTeleportBack()
         {
-            Assert.Fail("The test is not implemented");
+            // Arange
+            Portal portal = new GameObject().AddComponent<Portal>();
+            IPortalAnimator portalAnimator = Substitute.For<IPortalAnimator>();
+            ITeleportableDetector teleportableDetector = Substitute.For<ITeleportableDetector>();
+            IPortal pairedPortal = Substitute.For<IPortal>();
+            ITeleportable teleportable = Substitute.For<ITeleportable>();
+            int teleortedCalledCount = 0;
+            teleportable.When(x => x.TeleportTo(Arg.Any<Vector3>())).Do(x => teleortedCalledCount++);
+
+            // Act
+            portal.Initialize(portalAnimator, teleportableDetector, pairedPortal);
+            portal.Enabled = true;
+            pairedPortal.OnTeleported += Raise.Event<Action<ITeleportable>>(teleportable);
+            teleportableDetector.OnEnter += Raise.Event<Action<ITeleportable>>(teleportable);
+            teleportableDetector.OnExit += Raise.Event<Action<ITeleportable>>(teleportable);
+            teleportableDetector.OnEnter += Raise.Event<Action<ITeleportable>>(teleportable);
+
+            // Assert
+            Assert.AreEqual(1, teleortedCalledCount);
         }
     }
 }
