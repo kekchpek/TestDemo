@@ -19,7 +19,7 @@ namespace TestDemo.Teleport
         [UnityTest]
         public IEnumerator TestEnter()
         {
-            // Arrage
+            // Arrange
             var detectorObj = new GameObject();
             var triggerCollider = detectorObj.AddComponent<SphereCollider>();
             triggerCollider.isTrigger = true;
@@ -48,7 +48,7 @@ namespace TestDemo.Teleport
         [UnityTest]
         public IEnumerator TestExit()
         {
-            // Arrage
+            // Arrange
             var detectorObj = new GameObject();
             var triggerCollider = detectorObj.AddComponent<SphereCollider>();
             triggerCollider.isTrigger = true;

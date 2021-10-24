@@ -12,7 +12,7 @@ namespace TestDemo.Tests
         [Test]
         public void TestInitialization()
         {
-            // Arange
+            // Arrange
             Portal portal = new GameObject().AddComponent<Portal>();
             IPortalAnimator portalAnimator = Substitute.For<IPortalAnimator>();
             ITeleportableDetector teleportableDetector = Substitute.For<ITeleportableDetector>();
@@ -30,7 +30,7 @@ namespace TestDemo.Tests
         [Test]
         public void TestEnable()
         {
-            // Arange
+            // Arrange
             Portal portal = new GameObject().AddComponent<Portal>();
             IPortalAnimator portalAnimator = Substitute.For<IPortalAnimator>();
             ITeleportableDetector teleportableDetector = Substitute.For<ITeleportableDetector>();
@@ -49,7 +49,7 @@ namespace TestDemo.Tests
         [Test]
         public void TestDisable()
         {
-            // Arange
+            // Arrange
             Portal portal = new GameObject().AddComponent<Portal>();
             IPortalAnimator portalAnimator = Substitute.For<IPortalAnimator>();
             ITeleportableDetector teleportableDetector = Substitute.For<ITeleportableDetector>();
@@ -69,7 +69,7 @@ namespace TestDemo.Tests
         [Test]
         public void TestDisableCycle()
         {
-            // Arange
+            // Arrange
             Portal portal = new GameObject().AddComponent<Portal>();
             IPortalAnimator portalAnimator = Substitute.For<IPortalAnimator>();
             ITeleportableDetector teleportableDetector = Substitute.For<ITeleportableDetector>();
@@ -91,7 +91,7 @@ namespace TestDemo.Tests
         [Test]
         public void TestTeleportationOff()
         {
-            // Arange
+            // Arrange
             Portal portal = new GameObject().AddComponent<Portal>();
             IPortalAnimator portalAnimator = Substitute.For<IPortalAnimator>();
             ITeleportableDetector teleportableDetector = Substitute.For<ITeleportableDetector>();
@@ -114,7 +114,7 @@ namespace TestDemo.Tests
         [Test]
         public void TestTeleportationOn()
         {
-            // Arange
+            // Arrange
             Portal portal = new GameObject().AddComponent<Portal>();
             IPortalAnimator portalAnimator = Substitute.For<IPortalAnimator>();
             ITeleportableDetector teleportableDetector = Substitute.For<ITeleportableDetector>();
