@@ -11,7 +11,7 @@ namespace TestDemo.Tests
         [UnityTest]
         public IEnumerator TestTeleport()
         {
-            // Arange
+            // Arrange
             var gameObj = new GameObject();
             var teleportable = gameObj.AddComponent<Teleportable>();
             Vector3 teleportPosition = new Vector3(23f, 1.11111f, 343.191f);
